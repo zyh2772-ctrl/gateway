@@ -13,3 +13,9 @@ __pycache__/
 # Local config (user-specific)
 litellm.config.yaml
 
+
+# Internal design docs (keep only in private workspace)
+意见.md
+现有.md
+现有.v2.md
+最终实施文档草案-按需加载与内存准入.md
