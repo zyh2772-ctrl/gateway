@@ -1,0 +1,930 @@
+{
+  "ok": true,
+  "validation_errors": [],
+  "merged_state": {
+    "facts": [
+      {
+        "key": "validation_stage",
+        "value": "research_pipeline_validation",
+        "scope": "task",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "planner-e1"
+        ],
+        "kind": "facts",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json",
+        "identity": "facts:task:validation_stage",
+        "value_signature": "{\"key\": \"validation_stage\", \"proposal_type\": null, \"value\": \"research_pipeline_validation\"}"
+      },
+      {
+        "key": "schema_supports_structured_state_delta",
+        "value": "true",
+        "scope": "workspace",
+        "source": "tool_output",
+        "evidence_ids": [
+          "retriever-e1"
+        ],
+        "kind": "facts",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json",
+        "identity": "facts:workspace:schema_supports_structured_state_delta",
+        "value_signature": "{\"key\": \"schema_supports_structured_state_delta\", \"proposal_type\": null, \"value\": \"true\"}"
+      },
+      {
+        "key": "budget_validation_command",
+        "value": "validate_and_merge.py --max-stage-context-tokens 1200 --max-long-term-tokens 1200",
+        "scope": "task",
+        "source": "tool_output",
+        "evidence_ids": [
+          "retriever-e3"
+        ],
+        "kind": "facts",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json",
+        "identity": "facts:task:budget_validation_command",
+        "value_signature": "{\"key\": \"budget_validation_command\", \"proposal_type\": null, \"value\": \"validate_and_merge.py --max-stage-context-tokens 1200 --max-long-term-tokens 1200\"}"
+      },
+      {
+        "key": "v11_validation_ready",
+        "value": "true",
+        "scope": "task",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "synth-e1",
+          "synth-e2"
+        ],
+        "kind": "facts",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json",
+        "identity": "facts:task:v11_validation_ready",
+        "value_signature": "{\"key\": \"v11_validation_ready\", \"proposal_type\": null, \"value\": \"true\"}"
+      },
+      {
+        "key": "missing_artifact_detected",
+        "value": "true",
+        "scope": "task",
+        "source": "tool_output",
+        "evidence_ids": [
+          "failure-e1"
+        ],
+        "kind": "facts",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json",
+        "identity": "facts:task:missing_artifact_detected",
+        "value_signature": "{\"key\": \"missing_artifact_detected\", \"proposal_type\": null, \"value\": \"true\"}"
+      }
+    ],
+    "preferences": [
+      {
+        "key": "memory_entry_mode",
+        "value": "main_agent_packaged_context_only",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "planner-e2"
+        ],
+        "kind": "preferences",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json",
+        "identity": "preferences:workspace:memory_entry_mode",
+        "value_signature": "{\"key\": \"memory_entry_mode\", \"proposal_type\": null, \"value\": \"main_agent_packaged_context_only\"}"
+      }
+    ],
+    "decisions": [
+      {
+        "topic": "orchestrator_entrypoint",
+        "decision": "Use before_subagent_spawn as the only long-term memory entrypoint for subagent launches.",
+        "rationale": "Centralized recall preserves budget and prevents subagents from bypassing memory governance.",
+        "scope": "workspace",
+        "proposal_type": "append",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "planner-e1",
+          "planner-e2"
+        ],
+        "kind": "decisions",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json",
+        "identity": "decisions:workspace:orchestrator_entrypoint",
+        "value_signature": "{\"decision\": \"Use before_subagent_spawn as the only long-term memory entrypoint for subagent launches.\", \"proposal_type\": \"append\", \"topic\": \"orchestrator_entrypoint\"}"
+      },
+      {
+        "topic": "workspace_write_gate",
+        "decision": "Require evidence_ids before approving workspace-level memory writes.",
+        "rationale": "The policy explicitly sets evidence as the gate for long-term workspace memory.",
+        "scope": "workspace",
+        "proposal_type": "append",
+        "source": "tool_output",
+        "evidence_ids": [
+          "retriever-e2"
+        ],
+        "kind": "decisions",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json",
+        "identity": "decisions:workspace:workspace_write_gate",
+        "value_signature": "{\"decision\": \"Require evidence_ids before approving workspace-level memory writes.\", \"proposal_type\": \"append\", \"topic\": \"workspace_write_gate\"}"
+      },
+      {
+        "topic": "approval_classifier",
+        "decision": "Classify structured proposals into approved, deferred, or rejected before any long-term writeback.",
+        "rationale": "Approval classification is required to prevent direct persistence of weak or inferred workspace claims.",
+        "scope": "workspace",
+        "proposal_type": "append",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "verifier-e1",
+          "verifier-e2"
+        ],
+        "kind": "decisions",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_2.json",
+        "identity": "decisions:workspace:approval_classifier",
+        "value_signature": "{\"decision\": \"Classify structured proposals into approved, deferred, or rejected before any long-term writeback.\", \"proposal_type\": \"append\", \"topic\": \"approval_classifier\"}"
+      },
+      {
+        "topic": "validation_exit_criteria",
+        "decision": "Treat the run as passed only if unique entry, role distribution, structured proposals, approval writeback, budget fuse, and fallback routing all succeed.",
+        "rationale": "The v1.1 contract is only meaningful if all five assertions hold in one report.",
+        "scope": "workspace",
+        "proposal_type": "append",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "synth-e1",
+          "synth-e2"
+        ],
+        "kind": "decisions",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json",
+        "identity": "decisions:workspace:validation_exit_criteria",
+        "value_signature": "{\"decision\": \"Treat the run as passed only if unique entry, role distribution, structured proposals, approval writeback, budget fuse, and fallback routing all succeed.\", \"proposal_type\": \"append\", \"topic\": \"validation_exit_criteria\"}"
+      },
+      {
+        "topic": "failed_retrieval_path",
+        "decision": "Do not retry the same missing-artifact retrieval path without changing the source.",
+        "rationale": "Repeated attempts on the same missing local artifact would be wasted work.",
+        "scope": "task",
+        "proposal_type": "append",
+        "source": "tool_output",
+        "evidence_ids": [
+          "failure-e1"
+        ],
+        "kind": "decisions",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json",
+        "identity": "decisions:task:failed_retrieval_path",
+        "value_signature": "{\"decision\": \"Do not retry the same missing-artifact retrieval path without changing the source.\", \"proposal_type\": \"append\", \"topic\": \"failed_retrieval_path\"}"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "If a subagent bypasses packaged context, role-specific budgeting and pollution control both fail.",
+        "impact": "high",
+        "likelihood": "medium",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "planner-e2"
+        ],
+        "kind": "risks",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json",
+        "identity": "risks:workspace:If a subagent bypasses packaged context, role-specific budgeting and pollution control both fail.",
+        "value_signature": "{\"impact\": \"high\", \"likelihood\": \"medium\", \"risk\": \"If a subagent bypasses packaged context, role-specific budgeting and pollution control both fail.\"}"
+      },
+      {
+        "risk": "Legacy string-only state_delta entries still require manual review before long-term writeback.",
+        "impact": "medium",
+        "likelihood": "medium",
+        "scope": "workspace",
+        "source": "tool_output",
+        "evidence_ids": [
+          "retriever-e1"
+        ],
+        "kind": "risks",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json",
+        "identity": "risks:workspace:Legacy string-only state_delta entries still require manual review before long-term writeback.",
+        "value_signature": "{\"impact\": \"medium\", \"likelihood\": \"medium\", \"risk\": \"Legacy string-only state_delta entries still require manual review before long-term writeback.\"}"
+      },
+      {
+        "risk": "If model_inference reaches workspace writeback without evidence, memory pollution will accumulate across sessions.",
+        "impact": "high",
+        "likelihood": "medium",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "verifier-e1",
+          "verifier-e2"
+        ],
+        "kind": "risks",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_2.json",
+        "identity": "risks:workspace:If model_inference reaches workspace writeback without evidence, memory pollution will accumulate across sessions.",
+        "value_signature": "{\"impact\": \"high\", \"likelihood\": \"medium\", \"risk\": \"If model_inference reaches workspace writeback without evidence, memory pollution will accumulate across sessions.\"}"
+      },
+      {
+        "risk": "Future protocol changes could silently break compatibility if the validator is not re-run against sample payloads.",
+        "impact": "medium",
+        "likelihood": "medium",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "synth-e1"
+        ],
+        "kind": "risks",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json",
+        "identity": "risks:workspace:Future protocol changes could silently break compatibility if the validator is not re-run against sample payloads.",
+        "value_signature": "{\"impact\": \"medium\", \"likelihood\": \"medium\", \"risk\": \"Future protocol changes could silently break compatibility if the validator is not re-run against sample payloads.\"}"
+      },
+      {
+        "risk": "Retrying the same missing-artifact path would create a failure loop.",
+        "impact": "medium",
+        "likelihood": "high",
+        "scope": "task",
+        "source": "tool_output",
+        "evidence_ids": [
+          "failure-e1"
+        ],
+        "kind": "risks",
+        "source_file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json",
+        "identity": "risks:task:Retrying the same missing-artifact path would create a failure loop.",
+        "value_signature": "{\"impact\": \"medium\", \"likelihood\": \"high\", \"risk\": \"Retrying the same missing-artifact path would create a failure loop.\"}"
+      }
+    ]
+  },
+  "approval_report": {
+    "approved": [
+      {
+        "identity": "facts:task:validation_stage",
+        "kind": "facts",
+        "scope": "task",
+        "source": "observed_fact",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json"
+        ],
+        "evidence_ids": [
+          "planner-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "facts:workspace:schema_supports_structured_state_delta",
+        "kind": "facts",
+        "scope": "workspace",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json"
+        ],
+        "evidence_ids": [
+          "retriever-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "facts:task:budget_validation_command",
+        "kind": "facts",
+        "scope": "task",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json"
+        ],
+        "evidence_ids": [
+          "retriever-e3"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "facts:task:v11_validation_ready",
+        "kind": "facts",
+        "scope": "task",
+        "source": "observed_fact",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json"
+        ],
+        "evidence_ids": [
+          "synth-e1",
+          "synth-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "facts:task:missing_artifact_detected",
+        "kind": "facts",
+        "scope": "task",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json"
+        ],
+        "evidence_ids": [
+          "failure-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "preferences:workspace:memory_entry_mode",
+        "kind": "preferences",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json"
+        ],
+        "evidence_ids": [
+          "planner-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "decisions:workspace:orchestrator_entrypoint",
+        "kind": "decisions",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json"
+        ],
+        "evidence_ids": [
+          "planner-e1",
+          "planner-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "decisions:workspace:workspace_write_gate",
+        "kind": "decisions",
+        "scope": "workspace",
+        "source": "tool_output",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json"
+        ],
+        "evidence_ids": [
+          "retriever-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "decisions:workspace:approval_classifier",
+        "kind": "decisions",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_2.json"
+        ],
+        "evidence_ids": [
+          "verifier-e1",
+          "verifier-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "decisions:workspace:validation_exit_criteria",
+        "kind": "decisions",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json"
+        ],
+        "evidence_ids": [
+          "synth-e1",
+          "synth-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "decisions:task:failed_retrieval_path",
+        "kind": "decisions",
+        "scope": "task",
+        "source": "tool_output",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json"
+        ],
+        "evidence_ids": [
+          "failure-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "risks:workspace:If a subagent bypasses packaged context, role-specific budgeting and pollution control both fail.",
+        "kind": "risks",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json"
+        ],
+        "evidence_ids": [
+          "planner-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "risks:workspace:Legacy string-only state_delta entries still require manual review before long-term writeback.",
+        "kind": "risks",
+        "scope": "workspace",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json"
+        ],
+        "evidence_ids": [
+          "retriever-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "risks:workspace:If model_inference reaches workspace writeback without evidence, memory pollution will accumulate across sessions.",
+        "kind": "risks",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_2.json"
+        ],
+        "evidence_ids": [
+          "verifier-e1",
+          "verifier-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "risks:workspace:Future protocol changes could silently break compatibility if the validator is not re-run against sample payloads.",
+        "kind": "risks",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json"
+        ],
+        "evidence_ids": [
+          "synth-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      },
+      {
+        "identity": "risks:task:Retrying the same missing-artifact path would create a failure loop.",
+        "kind": "risks",
+        "scope": "task",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json"
+        ],
+        "evidence_ids": [
+          "failure-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements"
+      }
+    ],
+    "deferred": [],
+    "rejected": [],
+    "audit_records": [
+      {
+        "identity": "facts:task:validation_stage",
+        "kind": "facts",
+        "scope": "task",
+        "source": "observed_fact",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json"
+        ],
+        "evidence_ids": [
+          "planner-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "facts:workspace:schema_supports_structured_state_delta",
+        "kind": "facts",
+        "scope": "workspace",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json"
+        ],
+        "evidence_ids": [
+          "retriever-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "facts:task:budget_validation_command",
+        "kind": "facts",
+        "scope": "task",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json"
+        ],
+        "evidence_ids": [
+          "retriever-e3"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "facts:task:v11_validation_ready",
+        "kind": "facts",
+        "scope": "task",
+        "source": "observed_fact",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json"
+        ],
+        "evidence_ids": [
+          "synth-e1",
+          "synth-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "facts:task:missing_artifact_detected",
+        "kind": "facts",
+        "scope": "task",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json"
+        ],
+        "evidence_ids": [
+          "failure-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "preferences:workspace:memory_entry_mode",
+        "kind": "preferences",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json"
+        ],
+        "evidence_ids": [
+          "planner-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "decisions:workspace:orchestrator_entrypoint",
+        "kind": "decisions",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json"
+        ],
+        "evidence_ids": [
+          "planner-e1",
+          "planner-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "decisions:workspace:workspace_write_gate",
+        "kind": "decisions",
+        "scope": "workspace",
+        "source": "tool_output",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json"
+        ],
+        "evidence_ids": [
+          "retriever-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "decisions:workspace:approval_classifier",
+        "kind": "decisions",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_2.json"
+        ],
+        "evidence_ids": [
+          "verifier-e1",
+          "verifier-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "decisions:workspace:validation_exit_criteria",
+        "kind": "decisions",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json"
+        ],
+        "evidence_ids": [
+          "synth-e1",
+          "synth-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "decisions:task:failed_retrieval_path",
+        "kind": "decisions",
+        "scope": "task",
+        "source": "tool_output",
+        "proposal_type": "append",
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json"
+        ],
+        "evidence_ids": [
+          "failure-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "risks:workspace:If a subagent bypasses packaged context, role-specific budgeting and pollution control both fail.",
+        "kind": "risks",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json"
+        ],
+        "evidence_ids": [
+          "planner-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "risks:workspace:Legacy string-only state_delta entries still require manual review before long-term writeback.",
+        "kind": "risks",
+        "scope": "workspace",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json"
+        ],
+        "evidence_ids": [
+          "retriever-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "risks:workspace:If model_inference reaches workspace writeback without evidence, memory pollution will accumulate across sessions.",
+        "kind": "risks",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_2.json"
+        ],
+        "evidence_ids": [
+          "verifier-e1",
+          "verifier-e2"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "risks:workspace:Future protocol changes could silently break compatibility if the validator is not re-run against sample payloads.",
+        "kind": "risks",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json"
+        ],
+        "evidence_ids": [
+          "synth-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      },
+      {
+        "identity": "risks:task:Retrying the same missing-artifact path would create a failure loop.",
+        "kind": "risks",
+        "scope": "task",
+        "source": "tool_output",
+        "proposal_type": null,
+        "source_files": [
+          "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json"
+        ],
+        "evidence_ids": [
+          "failure-e1"
+        ],
+        "reason": "meets_scope_and_evidence_requirements",
+        "approved_by": "main_agent",
+        "status": "approved"
+      }
+    ],
+    "ok": true
+  },
+  "fallback_report": {
+    "ok": true,
+    "routes": [
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json",
+        "role": "Retriever",
+        "fallback_suggestion": "switch_tool",
+        "action": "Re-route to a different tool or implementation path.",
+        "summary": "缺少目标证据时，本角色没有自行扩展记忆范围，而是要求主代理切换工具或路径。"
+      }
+    ]
+  },
+  "role_context_report": {
+    "ok": true,
+    "per_file": [
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json",
+        "role": "Planner",
+        "context_blocks": [
+          "Relevant Preferences",
+          "Workspace Facts",
+          "Prior Decisions",
+          "Task Continuation State",
+          "Known Risks"
+        ],
+        "allowed_blocks": [
+          "Known Risks",
+          "Prior Decisions",
+          "Relevant Preferences",
+          "Task Continuation State",
+          "Workspace Facts"
+        ],
+        "memory_access_mode": "main_agent_packaged_context_only",
+        "ok": true
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json",
+        "role": "Retriever",
+        "context_blocks": [
+          "Workspace Facts",
+          "Retrieved Facts"
+        ],
+        "allowed_blocks": [
+          "Retrieved Facts",
+          "Workspace Facts"
+        ],
+        "memory_access_mode": "main_agent_packaged_context_only",
+        "ok": true
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_2.json",
+        "role": "Verifier",
+        "context_blocks": [
+          "Prior Decisions",
+          "Known Risks",
+          "Retrieved Facts"
+        ],
+        "allowed_blocks": [
+          "Known Risks",
+          "Prior Decisions",
+          "Retrieved Facts"
+        ],
+        "memory_access_mode": "main_agent_packaged_context_only",
+        "ok": true
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json",
+        "role": "Synthesizer",
+        "context_blocks": [
+          "Relevant Preferences",
+          "Workspace Facts",
+          "Prior Decisions",
+          "Task Continuation State",
+          "Known Risks",
+          "Retrieved Facts"
+        ],
+        "allowed_blocks": [
+          "Known Risks",
+          "Prior Decisions",
+          "Relevant Preferences",
+          "Retrieved Facts",
+          "Task Continuation State",
+          "Workspace Facts"
+        ],
+        "memory_access_mode": "main_agent_packaged_context_only",
+        "ok": true
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json",
+        "role": "Retriever",
+        "context_blocks": [
+          "Workspace Facts",
+          "Retrieved Facts"
+        ],
+        "allowed_blocks": [
+          "Retrieved Facts",
+          "Workspace Facts"
+        ],
+        "memory_access_mode": "main_agent_packaged_context_only",
+        "ok": true
+      }
+    ]
+  },
+  "snapshot_consistency_report": {
+    "ok": true,
+    "role_payloads": 5,
+    "snapshot_group_count": 1,
+    "per_file": [
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json",
+        "role": "Planner",
+        "context_snapshot_id": "snapshot-v11-validation",
+        "run_revision": 11,
+        "ok": true
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json",
+        "role": "Retriever",
+        "context_snapshot_id": "snapshot-v11-validation",
+        "run_revision": 11,
+        "ok": true
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_2.json",
+        "role": "Verifier",
+        "context_snapshot_id": "snapshot-v11-validation",
+        "run_revision": 11,
+        "ok": true
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json",
+        "role": "Synthesizer",
+        "context_snapshot_id": "snapshot-v11-validation",
+        "run_revision": 11,
+        "ok": true
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json",
+        "role": "Retriever",
+        "context_snapshot_id": "snapshot-v11-validation",
+        "run_revision": 11,
+        "ok": true
+      }
+    ],
+    "violations": []
+  },
+  "budget_report": {
+    "ok": true,
+    "total_context_tokens": 1000.0,
+    "max_stage_context_tokens": 1200,
+    "max_long_term_tokens": 1200,
+    "violations": [],
+    "per_file": [
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_0.json",
+        "role": "Planner",
+        "context_token_estimate": 250.0
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_1.json",
+        "role": "Retriever",
+        "context_token_estimate": 170.0
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_2.json",
+        "role": "Verifier",
+        "context_token_estimate": 210.0
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_3.json",
+        "role": "Synthesizer",
+        "context_token_estimate": 280.0
+      },
+      {
+        "file": "/var/folders/c1/w6ld9sqn7tz6s9w8wbxq0bdc0000gn/T/tmpim0auis4/payload_4.json",
+        "role": "Retriever",
+        "context_token_estimate": 90.0
+      }
+    ]
+  },
+  "contract_assertions": {
+    "unique_memory_entry_ok": true,
+    "role_distribution_ok": true,
+    "snapshot_consistency_ok": true,
+    "structured_proposals_ok": true,
+    "approval_writeback_ready": true,
+    "budget_fuse_ok": true,
+    "fallback_routing_ok": true
+  }
+}

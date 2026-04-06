@@ -1,0 +1,88 @@
+{
+  "default_thresholds": {
+    "low_confidence_semantic_min": 0.58,
+    "mixed_semantic_min": 0.7,
+    "high_confidence_semantic_min": 0.82,
+    "low_confidence_lexical_hint": 0.05,
+    "retrieved_facts_lexical_floor": 0.22,
+    "retrieved_facts_low_confidence_semantic_min": 0.64,
+    "retrieved_facts_mixed_semantic_min": 0.78,
+    "final_score_min": 0.45,
+    "retrieved_facts_min": 0.35,
+    "lexical_floor": 0.2,
+    "entity_alignment_floor": 0.5,
+    "weights": {
+      "lexical": 0.35,
+      "semantic": 0.2,
+      "approval": 0.15,
+      "recency": 0.1,
+      "role_fit": 0.08,
+      "trigger_fit": 0.05,
+      "entity_alignment": 0.04,
+      "confidence": 0.03
+    }
+  },
+  "override_thresholds": {
+    "low_confidence_semantic_min": 0.6,
+    "mixed_semantic_min": 0.74,
+    "high_confidence_semantic_min": 0.86,
+    "low_confidence_lexical_hint": 0.12,
+    "retrieved_facts_lexical_floor": 0.3,
+    "retrieved_facts_low_confidence_semantic_min": 0.7,
+    "retrieved_facts_mixed_semantic_min": 0.82,
+    "final_score_min": 0.5,
+    "retrieved_facts_min": 0.4,
+    "lexical_floor": 0.24,
+    "entity_alignment_floor": 0.55,
+    "weights": {
+      "lexical": 0.35,
+      "semantic": 0.2,
+      "approval": 0.15,
+      "recency": 0.1,
+      "role_fit": 0.08,
+      "trigger_fit": 0.05,
+      "entity_alignment": 0.04,
+      "confidence": 0.03
+    }
+  },
+  "default_limits": {
+    "block_limits": {
+      "Relevant Preferences": 3,
+      "Workspace Facts": 4,
+      "Prior Decisions": 4,
+      "Task Continuation State": 3,
+      "Known Risks": 3,
+      "Retrieved Facts": 2
+    },
+    "block_priority": [
+      "Known Risks",
+      "Task Continuation State",
+      "Prior Decisions",
+      "Workspace Facts",
+      "Relevant Preferences",
+      "Retrieved Facts"
+    ]
+  },
+  "override_limits": {
+    "block_limits": {
+      "Relevant Preferences": 3,
+      "Workspace Facts": 4,
+      "Prior Decisions": 4,
+      "Task Continuation State": 3,
+      "Known Risks": 3,
+      "Retrieved Facts": 1
+    },
+    "block_priority": [
+      "Known Risks",
+      "Task Continuation State",
+      "Prior Decisions",
+      "Workspace Facts",
+      "Relevant Preferences",
+      "Retrieved Facts"
+    ]
+  },
+  "default_budget_role_multiplier": 0.5,
+  "override_budget_role_multiplier": 0.6,
+  "same_query": true,
+  "same_command_shape": true
+}

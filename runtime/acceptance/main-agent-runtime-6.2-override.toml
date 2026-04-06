@@ -1,0 +1,80 @@
+[memory]
+default_user_id = "zyh"
+default_workspace_id = "ollamashiyong"
+default_app = "openmemory"
+sqlite_db = "/Users/zyh/Desktop/ceshi123/ollamashiyong/codex-global-memory/openmemory/data/openmemory.db"
+compat_helper = "/Users/zyh/Desktop/ceshi123/ollamashiyong/codex-global-memory/openmemory/openmemory_db_compat.py"
+max_memories = 50
+
+[budget]
+max_stage_context_tokens = 1200
+max_long_term_context_tokens = 1200
+
+[semantic_recall]
+enabled = true
+backend = "local_bgem3_hybrid"
+api_base = "http://127.0.0.1:4000/v1"
+model = "embed-m3"
+api_key_env = "LITELLM_MASTER_KEY"
+timeout_seconds = 20
+batch_size = 16
+local_model_path = "/Users/zyh/.lmstudio/models/BAAI/bge-m3"
+local_cache_dir = "/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/runtime/huggingface-cache"
+local_use_fp16 = false
+local_dense_weight = 0.7
+local_sparse_weight = 0.3
+local_max_query_length = 256
+local_max_passage_length = 512
+
+[recall_scoring]
+lexical_floor = 0.24
+retrieved_facts_lexical_floor = 0.30
+low_confidence_lexical_hint = 0.12
+low_confidence_semantic_min = 0.60
+mixed_semantic_min = 0.74
+high_confidence_semantic_min = 0.86
+final_score_min = 0.50
+retrieved_facts_min = 0.40
+retrieved_facts_low_confidence_semantic_min = 0.70
+retrieved_facts_mixed_semantic_min = 0.82
+entity_alignment_floor = 0.55
+lexical_weight = 0.35
+semantic_weight = 0.20
+approval_weight = 0.15
+recency_weight = 0.10
+role_fit_weight = 0.08
+trigger_fit_weight = 0.05
+entity_alignment_weight = 0.04
+confidence_weight = 0.03
+
+[recall_limits]
+block_priority = [
+  "Known Risks",
+  "Task Continuation State",
+  "Prior Decisions",
+  "Workspace Facts",
+  "Relevant Preferences",
+  "Retrieved Facts",
+]
+
+[recall_limits.role_budget_multipliers]
+Planner = 1.1
+Verifier = 0.9
+Implementer = 0.45
+Retriever = 0.6
+Synthesizer = 1.0
+
+[recall_limits.block_limits]
+"Relevant Preferences" = 3
+"Workspace Facts" = 4
+"Prior Decisions" = 4
+"Task Continuation State" = 3
+"Known Risks" = 3
+"Retrieved Facts" = 1
+
+[writeback]
+enabled = true
+store_audit_records = true
+
+[state]
+path = "/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/runtime/main-agent-runtime-state.json"

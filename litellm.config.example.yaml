@@ -1,0 +1,164 @@
+model_list:
+  - model_name: qwen3.5-27b
+    litellm_params:
+      model: openai/qwen3.5-27b
+      api_base: http://127.0.0.1:18085/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1800
+      stream_timeout: 1800
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: qwen3.5-9b
+    litellm_params:
+      model: openai/qwen3.5-9b
+      api_base: http://127.0.0.1:18081/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1200
+      stream_timeout: 1200
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: qwen2.5-1.5b
+    litellm_params:
+      model: openai/qwen2.5-1.5b
+      api_base: http://127.0.0.1:18082/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 600
+      stream_timeout: 600
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: omnicoder-9b
+    litellm_params:
+      model: openai/omnicoder-9b
+      api_base: http://127.0.0.1:18083/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1200
+      stream_timeout: 1200
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: huihui-27b
+    litellm_params:
+      model: openai/huihui-27b
+      api_base: http://127.0.0.1:18088/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1800
+      stream_timeout: 1800
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: gemma-4-26b
+    litellm_params:
+      model: openai/gemma-4-26b
+      api_base: http://127.0.0.1:18089/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1800
+      stream_timeout: 1800
+      supports_system_message: false
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: embed-m3
+    litellm_params:
+      model: openai/embed-m3
+      api_base: http://127.0.0.1:18084/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 300
+    model_info:
+      mode: embedding
+      base_model: bge-m3
+
+  - model_name: uncensored-fallback
+    litellm_params:
+      model: openai/huihui-27b
+      api_base: http://127.0.0.1:18088/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1800
+      stream_timeout: 1800
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: gemma-fallback
+    litellm_params:
+      model: openai/gemma-4-26b
+      api_base: http://127.0.0.1:18089/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1800
+      stream_timeout: 1800
+      supports_system_message: false
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: qwen-deep
+    litellm_params:
+      model: openai/qwen3.5-27b
+      api_base: http://127.0.0.1:18085/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1800
+      stream_timeout: 1800
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: qwen-deep-vl
+    litellm_params:
+      model: openai/qwen3.5-27b
+      api_base: http://127.0.0.1:18085/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1800
+      stream_timeout: 1800
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: qwen-fast
+    litellm_params:
+      model: openai/qwen3.5-9b
+      api_base: http://127.0.0.1:18081/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1200
+      stream_timeout: 1200
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: qwen-fast-vl
+    litellm_params:
+      model: openai/qwen3.5-9b
+      api_base: http://127.0.0.1:18081/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1200
+      stream_timeout: 1200
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: qwen-extract
+    litellm_params:
+      model: openai/qwen2.5-1.5b
+      api_base: http://127.0.0.1:18082/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 600
+      stream_timeout: 600
+    model_info:
+      responses_via_chat_completions: true
+
+  - model_name: code-fast
+    litellm_params:
+      model: openai/omnicoder-9b
+      api_base: http://127.0.0.1:18083/v1
+      api_key: os.environ/LOCAL_LLAMA_API_KEY
+      timeout: 1200
+      stream_timeout: 1200
+    model_info:
+      responses_via_chat_completions: true
+
+litellm_settings:
+  drop_params: true
+  telemetry: false
+  num_retries: 1
+  request_timeout: 1800
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+router_settings:
+  routing_strategy: simple-shuffle

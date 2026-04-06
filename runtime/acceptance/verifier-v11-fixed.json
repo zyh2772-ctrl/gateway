@@ -1,0 +1,129 @@
+{
+  "role": "Verifier",
+  "memory_access_mode": "main_agent_packaged_context_only",
+  "context_blocks": [
+    "Prior Decisions",
+    "Known Risks",
+    "Retrieved Facts"
+  ],
+  "goal": "Verify that the v1.1 multi-agent validation and approval pipeline, as implemented in this repo, is sufficient for safe writeback eligibility while leaving final long-term memory writes to the main agent.",
+  "scope": "task",
+  "allowed_tools": [
+    "shell_ls",
+    "shell_rg",
+    "shell_sed"
+  ],
+  "summary": "The repository implements a concrete validator that checks subagent JSON payloads against the contract schema, merges state_delta, computes budget usage, and produces an approval_report plus contract_assertions; memory_write_policy.md and injection_boundary.md clearly reserve long-term memory writes and audit record creation for the main agent. This means approve/validation/budget/fallback are truly implemented here, but writeback into OpenMemory remains a main-agent responsibility, which is acceptable if the main agent always gates writes on the validator outputs.",
+  "evidence": [
+    {
+      "id": "verifier-v11-e1",
+      "type": "file",
+      "value": "validate_and_merge implementation",
+      "ref": "codex-global-multi-agent/scripts/validate_and_merge.py:1",
+      "source": "observed_fact"
+    },
+    {
+      "id": "verifier-v11-e2",
+      "type": "file",
+      "value": "memory_write_policy specification",
+      "ref": "codex-global-multi-agent/policies/memory_write_policy.md:1",
+      "source": "observed_fact"
+    },
+    {
+      "id": "verifier-v11-e3",
+      "type": "file",
+      "value": "subagent_contract schema",
+      "ref": "codex-global-multi-agent/schemas/subagent_contract.schema.json:1",
+      "source": "observed_fact"
+    },
+    {
+      "id": "verifier-v11-e4",
+      "type": "file",
+      "value": "multi-agent README protocol description",
+      "ref": "codex-global-multi-agent/README.md:1",
+      "source": "observed_fact"
+    }
+  ],
+  "state_delta": {
+    "facts": [
+      {
+        "key": "validator_enforces_contract_and_budget",
+        "value": "validate_and_merge.py validates required top-level fields, state_delta structure, memory_access_mode, evidence typing, and computes a budget_report with stage and long-term token usage before producing an approval_report and contract_assertions.",
+        "scope": "task",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "verifier-v11-e1"
+        ]
+      },
+      {
+        "key": "memory_entrypoint_is_packaged_context_only",
+        "value": "The validator and schema assume memory_access_mode is main_agent_packaged_context_only for role-bearing subagents, ensuring subagents do not access long-term memory directly.",
+        "scope": "task",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "verifier-v11-e1",
+          "verifier-v11-e3"
+        ]
+      },
+      {
+        "key": "writeback_owned_by_main_agent",
+        "value": "memory_write_policy.md assigns approval, writeback, and audit_record responsibilities to the main agent, so this repo intentionally stops at building approval_report and contract_assertions.",
+        "scope": "task",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "verifier-v11-e2"
+        ]
+      }
+    ],
+    "preferences": [
+      {
+        "key": "use_validator_as_approval_gate",
+        "value": "The main agent should treat validate_and_merge.py as the canonical approval gate for research_pipeline_v11 outputs before any long-term memory writeback.",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "verifier-v11-e1",
+          "verifier-v11-e4"
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "topic": "approval_and_validation_pipeline",
+        "decision": "Adopt validate_and_merge.py as the default v1.1 validator and approval gate for multi-agent research pipeline outputs.",
+        "rationale": "The script already enforces the subagent contract schema, aggregates state_delta, verifies role-context assignments, calculates context budgets, and produces approval_report plus contract_assertions, which is sufficient for a main agent to decide whether writeback is allowed.",
+        "scope": "workspace",
+        "proposal_type": "append",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "verifier-v11-e1",
+          "verifier-v11-e3"
+        ]
+      },
+      {
+        "topic": "long_term_memory_writeback_location",
+        "decision": "Keep long-term memory writes and audit_record generation in the main agent runtime rather than inside this repository.",
+        "rationale": "memory_write_policy.md explicitly assigns long-term memory writes, entropy resolution, and audit_record generation to the main agent, and no OpenMemory client exists in this repo; aligning implementation with this policy avoids duplicated write paths and keeps the validator purely as a gating tool.",
+        "scope": "workspace",
+        "proposal_type": "append",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "verifier-v11-e2",
+          "verifier-v11-e4"
+        ]
+      }
+    ],
+    "risks": []
+  },
+  "risks": [
+    "If the main agent does not consistently gate long-term memory writes on approval_report and contract_assertions, the presence of a validator here will not fully prevent unsafe persistence.",
+    "If the main agent ignores the budget_report and budget_fuse_ok flag, context injection may still exceed the intended token budget in runtime prompts."
+  ],
+  "fallback_suggestion": "request_human_input",
+  "next_steps": [
+    "Have the main agent explicitly call validate_and_merge.py for research_pipeline_v11 runs and only consider items with action approved in approval_report.approved as eligible for long-term memory writeback.",
+    "Update the main enhancement guide to document that approval_report and contract_assertions are mandatory gates for any writeback into OpenMemory, aligning runtime behavior with memory_write_policy.md.",
+    "Introduce a lightweight checklist or test run where validation_report_v11.json is inspected alongside actual writeback behavior to ensure that only approved workspace-level decisions and risks are persisted."
+  ],
+  "confidence": 0.9
+}

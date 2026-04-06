@@ -1,0 +1,23 @@
+[server]
+host = "127.0.0.1"
+port = 4011
+
+[upstream]
+base_url = "https://capi.quan2go.com/openai"
+health_path = "/models"
+timeout_seconds = 1800
+
+[memory]
+default_user_id = "zyh"
+default_workspace_id = "ollamashiyong"
+default_app = "openmemory"
+compat_helper = "../codex-global-memory/openmemory/openmemory_db_compat.py"
+max_memories = 50
+
+[budget]
+max_stage_context_tokens = 1200
+max_long_term_context_tokens = 1200
+
+[writeback]
+enabled = true
+store_audit_records = true

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.zyh.local-llm-stack.supervisor</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/start_stack_supervisor.sh</string>
+    <string>--profile</string>
+    <string>core</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/runtime/launchd.stdout.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/runtime/launchd.stderr.log</string>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+</dict>
+</plist>

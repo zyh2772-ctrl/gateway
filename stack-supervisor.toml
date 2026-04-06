@@ -1,0 +1,160 @@
+[supervisor]
+default_profile = "core"
+poll_interval_seconds = 5
+status_host = "127.0.0.1"
+status_port = 4060
+runtime_dir = "./runtime"
+
+[memory_policy]
+auto_start_soft_limit_gb = 88
+hard_limit_gb = 96
+min_free_percent_for_conditional_start = 8
+max_swap_used_gb = 8
+heavy_model_budget_threshold_gb = 30
+max_auto_heavy_models = 2
+
+[profiles]
+core = ["litellm", "embed-m3", "qwen2.5-1.5b"]
+large-hot = ["litellm", "embed-m3", "qwen2.5-1.5b", "qwen3.5-9b", "omnicoder-9b", "qwen3.5-27b"]
+large-fallback = ["litellm", "embed-m3", "qwen2.5-1.5b", "huihui-27b"]
+full = ["litellm", "embed-m3", "qwen2.5-1.5b", "qwen3.5-9b", "omnicoder-9b", "gemma-4-26b"]
+
+[[services]]
+name = "qwen3.5-27b"
+kind = "llama.cpp"
+command = ["./start_llama_model.sh", "qwen3.5-27b", "18085"]
+cwd = "."
+port = 18085
+health_url = "http://127.0.0.1:18085/health"
+startup_grace_seconds = 45
+startup_timeout_seconds = 900
+restart_backoff_seconds = 20
+unhealthy_threshold = 3
+stop_timeout_seconds = 30
+memory_budget_gb = 40
+on_demand = true
+pinned = false
+heavy_group = "heavy-30g"
+watch_files = ["./start_llama_model.sh", "./.env"]
+
+[[services]]
+name = "qwen3.5-9b"
+kind = "llama.cpp"
+command = ["./start_llama_model.sh", "qwen3.5-9b", "18081"]
+cwd = "."
+port = 18081
+health_url = "http://127.0.0.1:18081/health"
+startup_grace_seconds = 30
+startup_timeout_seconds = 600
+restart_backoff_seconds = 15
+unhealthy_threshold = 3
+stop_timeout_seconds = 20
+memory_budget_gb = 16
+on_demand = true
+pinned = false
+watch_files = ["./start_llama_model.sh", "./.env"]
+
+[[services]]
+name = "qwen2.5-1.5b"
+kind = "llama.cpp"
+command = ["./start_llama_model.sh", "qwen2.5-1.5b", "18082"]
+cwd = "."
+port = 18082
+health_url = "http://127.0.0.1:18082/health"
+startup_grace_seconds = 20
+startup_timeout_seconds = 180
+restart_backoff_seconds = 10
+unhealthy_threshold = 3
+stop_timeout_seconds = 10
+memory_budget_gb = 3
+on_demand = false
+pinned = true
+watch_files = ["./start_llama_model.sh", "./.env"]
+
+[[services]]
+name = "omnicoder-9b"
+kind = "llama.cpp"
+command = ["./start_llama_model.sh", "omnicoder-9b", "18083"]
+cwd = "."
+port = 18083
+health_url = "http://127.0.0.1:18083/health"
+startup_grace_seconds = 30
+startup_timeout_seconds = 600
+restart_backoff_seconds = 15
+unhealthy_threshold = 3
+stop_timeout_seconds = 20
+memory_budget_gb = 14
+on_demand = true
+pinned = false
+watch_files = ["./start_llama_model.sh", "./.env"]
+
+[[services]]
+name = "embed-m3"
+kind = "llama.cpp"
+command = ["./start_llama_model.sh", "embed-m3", "18084"]
+cwd = "."
+port = 18084
+health_url = "http://127.0.0.1:18084/health"
+startup_grace_seconds = 20
+startup_timeout_seconds = 180
+restart_backoff_seconds = 10
+unhealthy_threshold = 3
+stop_timeout_seconds = 10
+memory_budget_gb = 1.5
+on_demand = false
+pinned = true
+watch_files = ["./start_llama_model.sh", "./.env"]
+
+[[services]]
+name = "huihui-27b"
+kind = "llama.cpp"
+command = ["./start_llama_model.sh", "huihui-27b", "18088"]
+cwd = "."
+port = 18088
+health_url = "http://127.0.0.1:18088/health"
+startup_grace_seconds = 60
+startup_timeout_seconds = 1200
+restart_backoff_seconds = 30
+unhealthy_threshold = 3
+stop_timeout_seconds = 30
+memory_budget_gb = 35
+on_demand = true
+pinned = false
+heavy_group = "heavy-30g"
+watch_files = ["./start_llama_model.sh", "./.env"]
+
+[[services]]
+name = "gemma-4-26b"
+kind = "llama.cpp"
+command = ["./start_llama_model.sh", "gemma-4-26b", "18089"]
+cwd = "."
+port = 18089
+health_url = "http://127.0.0.1:18089/health"
+startup_grace_seconds = 60
+startup_timeout_seconds = 1200
+restart_backoff_seconds = 30
+unhealthy_threshold = 3
+stop_timeout_seconds = 30
+memory_budget_gb = 36
+on_demand = true
+pinned = false
+heavy_group = "heavy-30g"
+watch_files = ["./start_llama_model.sh", "./.env"]
+
+[[services]]
+name = "litellm"
+kind = "gateway"
+command = ["./start_litellm.sh"]
+cwd = "."
+port = 4000
+health_url = "http://127.0.0.1:4000/v1/models"
+health_headers = ["Authorization: Bearer sk-local-gateway"]
+startup_grace_seconds = 20
+startup_timeout_seconds = 120
+restart_backoff_seconds = 10
+unhealthy_threshold = 3
+stop_timeout_seconds = 15
+memory_budget_gb = 0.5
+on_demand = false
+pinned = true
+watch_files = ["./start_litellm.sh", "./litellm.config.yaml", "./.env"]

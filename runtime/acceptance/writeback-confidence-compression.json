@@ -1,0 +1,78 @@
+{
+  "role": "Synthesizer",
+  "memory_access_mode": "main_agent_packaged_context_only",
+  "context_snapshot_id": "snapshot-confidence-writeback-001",
+  "run_revision": 601,
+  "context_blocks": [
+    "Relevant Preferences",
+    "Workspace Facts",
+    "Prior Decisions",
+    "Task Continuation State",
+    "Known Risks",
+    "Retrieved Facts"
+  ],
+  "source_context_blocks": [
+    "Relevant Preferences",
+    "Workspace Facts",
+    "Prior Decisions",
+    "Task Continuation State",
+    "Known Risks",
+    "Retrieved Facts"
+  ],
+  "goal": "Verify compression proposal writeback assigns confidence_score = 0.8.",
+  "scope": "workspace",
+  "allowed_tools": [
+    "shell_rg"
+  ],
+  "summary": "This fixture writes one compression-derived fact and expects writeback metadata.confidence_score = 0.8.",
+  "context_token_estimate": 260,
+  "evidence": [
+    {
+      "id": "confidence-compression-e1",
+      "type": "file",
+      "value": "Compression confidence writeback fixture",
+      "ref": "/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/runtime/acceptance/writeback-confidence-compression.json",
+      "source": "approved_decision"
+    }
+  ],
+  "state_delta": {
+    "facts": [
+      {
+        "key": "compression_confidence_fixture",
+        "value": "[Derived] Workspace prefers storing compressed governance facts with preserved evidence.",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "confidence-compression-e1"
+        ]
+      }
+    ],
+    "preferences": [],
+    "decisions": [],
+    "risks": []
+  },
+  "risks": [],
+  "fallback_suggestion": "request_human_input",
+  "next_steps": [
+    "Confirm writeback stores confidence_score = 0.8 for compression-derived writes."
+  ],
+  "confidence": 0.99,
+  "schema_version": "compression_proposal_v1",
+  "proposal_kind": "compression_proposal",
+  "compression_manifest": {
+    "target_workspace_id": "ollamashiyong",
+    "target_scope": "workspace",
+    "rollback_basis": "restore source memories if derived fact is rejected later",
+    "source_evidence_hash": "confidence-compression-hash",
+    "source_memory_ids": [
+      "compression-source-memory-1"
+    ],
+    "source_identities": [
+      "facts:workspace:compression_source_fixture"
+    ],
+    "raw_audit_trail_hashes": [
+      "compression-audit-hash-1"
+    ],
+    "conflict_class": "none"
+  }
+}

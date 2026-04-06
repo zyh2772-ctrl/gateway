@@ -1,0 +1,53 @@
+{
+  "role": "Verifier",
+  "memory_access_mode": "main_agent_packaged_context_only",
+  "context_snapshot_id": "snapshot-confidence-writeback-001",
+  "run_revision": 601,
+  "context_blocks": [
+    "Prior Decisions",
+    "Known Risks"
+  ],
+  "source_context_blocks": [
+    "Prior Decisions",
+    "Known Risks"
+  ],
+  "goal": "Verify explicit confidence_score survives writeback unchanged.",
+  "scope": "task",
+  "allowed_tools": [
+    "shell_rg"
+  ],
+  "summary": "This fixture writes one approved observed_fact carrying confidence_score = 0.61 and expects writeback to preserve that exact value.",
+  "context_token_estimate": 180,
+  "evidence": [
+    {
+      "id": "confidence-explicit-e1",
+      "type": "file",
+      "value": "Explicit confidence writeback fixture",
+      "ref": "/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/runtime/acceptance/writeback-confidence-explicit.json",
+      "source": "observed_fact"
+    }
+  ],
+  "state_delta": {
+    "facts": [
+      {
+        "key": "confidence_writeback_explicit_fixture",
+        "value": "explicit_confidence_should_survive",
+        "scope": "task",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "confidence-explicit-e1"
+        ],
+        "confidence_score": 0.61
+      }
+    ],
+    "preferences": [],
+    "decisions": [],
+    "risks": []
+  },
+  "risks": [],
+  "fallback_suggestion": "request_human_input",
+  "next_steps": [
+    "Confirm writeback stores confidence_score = 0.61 exactly."
+  ],
+  "confidence": 0.99
+}

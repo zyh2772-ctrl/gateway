@@ -1,0 +1,58 @@
+{
+  "role": "Verifier",
+  "memory_access_mode": "main_agent_packaged_context_only",
+  "context_blocks": [
+    "Prior Decisions",
+    "Known Risks"
+  ],
+  "goal": "Verify writeback gate blocks persistence when approval has both approved and rejected items.",
+  "scope": "task",
+  "allowed_tools": [
+    "shell_rg"
+  ],
+  "summary": "This acceptance payload intentionally mixes one valid approved fact with one workspace-level model_inference risk that must be rejected, to ensure approve --writeback does not persist partial results when result.ok is false.",
+  "evidence": [
+    {
+      "id": "gate-e1",
+      "type": "file",
+      "value": "Gate regression fixture",
+      "ref": "/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/runtime/acceptance/writeback-gate-partial-reject.json",
+      "source": "observed_fact"
+    }
+  ],
+  "state_delta": {
+    "facts": [
+      {
+        "key": "writeback_gate_regression_fixture",
+        "value": "approved_fact_present",
+        "scope": "task",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "gate-e1"
+        ]
+      }
+    ],
+    "preferences": [],
+    "decisions": [],
+    "risks": [
+      {
+        "risk": "workspace_model_inference_risk_should_block_ok",
+        "scope": "workspace",
+        "source": "model_inference",
+        "impact": "medium",
+        "likelihood": "medium",
+        "evidence_ids": [
+          "gate-e1"
+        ]
+      }
+    ]
+  },
+  "risks": [
+    "This payload is intentionally mixed to verify writeback gating."
+  ],
+  "fallback_suggestion": "request_human_input",
+  "next_steps": [
+    "Confirm no writeback occurs when result.ok is false even if approved items exist."
+  ],
+  "confidence": 0.99
+}

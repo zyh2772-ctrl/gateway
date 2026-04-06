@@ -1,0 +1,7 @@
+FROM /Users/zyh/.lmstudio/models/cs2764/Huihui-Qwen3.5-27B-Claude-4.6-Opus-abliterated-Q8_0-GGUF/huihui-qwen3.5-27b-claude-4.6-opus-abliterated-q8_0.gguf
+
+PARAMETER num_ctx 65536
+PARAMETER temperature 0.6
+PARAMETER top_p 0.95
+PARAMETER top_k 20
+PARAMETER min_p 0

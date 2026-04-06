@@ -1,0 +1,139 @@
+{
+  "workspaces": {
+    "zyh:ollamashiyong": {
+      "user_id": "zyh",
+      "workspace_id": "ollamashiyong",
+      "active_roles": [
+        "Planner",
+        "Verifier",
+        "Implementer",
+        "Retriever",
+        "Compactor"
+      ],
+      "fallback_history": [],
+      "memory_budget": {},
+      "task_summary": "",
+      "last_trigger": "before_task_start",
+      "last_query": "Split workspace into two sanitized public repos: (1) gateway, (2) memory+multi-agent; generate READMEs; ensure configs and data are desensitized",
+      "last_context_blocks": {},
+      "updated_at": 1775447648,
+      "run_revision": 101,
+      "context_snapshot_id": "2e07c3053e7f423290c06af73cf8d67d",
+      "lifecycle_stage": "start"
+    },
+    "zyh:finalize-acceptance-ws": {
+      "user_id": "zyh",
+      "workspace_id": "finalize-acceptance-ws",
+      "active_roles": [],
+      "fallback_history": [],
+      "memory_budget": {},
+      "task_summary": "",
+      "run_revision": 6,
+      "context_snapshot_id": "2a49a0acf6004612bc6f6d0256ef65b9",
+      "last_trigger": "before_task_start",
+      "last_query": "workspace fact survive finalize",
+      "last_context_blocks": {
+        "Workspace Facts": [
+          "finalize_acceptance_workspace_fact_1: should survive finalize"
+        ]
+      },
+      "updated_at": 1775410093,
+      "last_finalized_at": 1775410075,
+      "finalized_task_continuation_count": 2
+    },
+    "zyh:runstate-lifecycle-acceptance": {
+      "user_id": "zyh",
+      "workspace_id": "runstate-lifecycle-acceptance",
+      "lifecycle_stage": "finalize",
+      "active_roles": [],
+      "fallback_history": [],
+      "memory_budget": {},
+      "task_summary": "",
+      "run_revision": 5,
+      "context_snapshot_id": "0372a64ba41e4b699f2a43e87d23fee1",
+      "last_trigger": "finalize",
+      "last_query": "runstate acceptance: cleanup finalize",
+      "last_context_blocks": {},
+      "updated_at": 1775427326,
+      "last_finalized_at": 1775427326,
+      "finalized_task_continuation_count": 0
+    },
+    "zyh:ollamashiyong-acceptance-pass": {
+      "user_id": "zyh",
+      "workspace_id": "ollamashiyong-acceptance-pass",
+      "lifecycle_stage": "start",
+      "active_roles": [],
+      "fallback_history": [],
+      "memory_budget": {},
+      "task_summary": "",
+      "run_revision": 2,
+      "context_snapshot_id": "2b9061cef0e345368af274ba78e5a5e8",
+      "last_trigger": "before_task_start",
+      "last_query": "approval and validation pipeline",
+      "last_context_blocks": {
+        "Prior Decisions": [
+          "[append] approval_and_validation_pipeline: Adopt validate_and_merge.py as the default v1.1 validator and approval gate for multi-agent research pipeline outputs.",
+          "[append] long_term_memory_writeback_location: Keep long-term memory writes and audit_record generation in the main agent runtime rather than inside this repository."
+        ]
+      },
+      "updated_at": 1775429822
+    },
+    "zyh:middleware-smoke-6-1": {
+      "user_id": "zyh",
+      "workspace_id": "middleware-smoke-6-1",
+      "lifecycle_stage": "finalize",
+      "active_roles": [],
+      "fallback_history": [],
+      "memory_budget": {},
+      "task_summary": "",
+      "run_revision": 2,
+      "context_snapshot_id": "41a2ac51de844a1db726b377898e63b3",
+      "last_trigger": "finalize",
+      "last_query": "6.1 middleware smoke finalize",
+      "last_context_blocks": {},
+      "updated_at": 1775437403,
+      "last_finalized_at": 1775437403,
+      "finalized_task_continuation_count": 0
+    },
+    "zyh:acceptance-6-2": {
+      "user_id": "zyh",
+      "workspace_id": "acceptance-6-2",
+      "lifecycle_stage": "start",
+      "active_roles": [
+        "Retriever"
+      ],
+      "fallback_history": [],
+      "memory_budget": {},
+      "task_summary": "",
+      "run_revision": 2,
+      "context_snapshot_id": "9441470ef6d847ffa2d86a230928ef9c",
+      "last_trigger": "before_task_start",
+      "last_query": "未审批证据先留 Retrieved Facts",
+      "last_context_blocks": {},
+      "updated_at": 1775438039
+    },
+    "zyh:context-override-envelope-acceptance": {
+      "user_id": "zyh",
+      "workspace_id": "context-override-envelope-acceptance",
+      "lifecycle_stage": "start",
+      "active_roles": [
+        "Planner"
+      ],
+      "fallback_history": [],
+      "memory_budget": {},
+      "task_summary": "",
+      "run_revision": 4,
+      "context_snapshot_id": "857bdd045d454ab5bc0b780cdd1ca62f",
+      "last_trigger": "before_task_start",
+      "last_query": "context_override_envelope_pref 不再使用",
+      "last_context_blocks": {},
+      "updated_at": 1775438855
+    }
+  },
+  "__meta": {
+    "last_workspace_by_user": {
+      "zyh": "ollamashiyong"
+    },
+    "updated_at": 1775447648
+  }
+}

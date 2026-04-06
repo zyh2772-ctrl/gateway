@@ -1,0 +1,164 @@
+{
+  "role": "Planner",
+  "memory_access_mode": "main_agent_packaged_context_only",
+  "context_blocks": [
+    "Relevant Preferences",
+    "Workspace Facts",
+    "Prior Decisions",
+    "Task Continuation State",
+    "Known Risks"
+  ],
+  "goal": "审计并巩固 v1.1 多代理链路：确保主代理以 main_agent_runtime 为默认入口，before_subagent_spawn 作为唯一长期记忆召回入口，子代理只消费主代理打包的上下文。",
+  "scope": "仅做静态规划与现状审计，不改代码、不改配置。",
+  "allowed_tools": [
+    "exec_command"
+  ],
+  "summary": "当前仓库文档和 runtime 配置表明：1）设计上已经将 main_agent_runtime.py 定位为 v1.1 记忆召回与审批 CLI，main_agent_gateway.py 仅保留为早期 PoC；2）before_subagent_spawn 已在 memory_recall_and_injection_v1.md 和 main-agent-runtime-state.json 中被设为 long-term memory 的主触发点；3）多代理规划文档与 planner_v11.json 都要求子代理通过 main_agent_packaged_context_only 模式，只消费主代理角色化打包的上下文块。",
+  "evidence": [
+    {
+      "id": "planner-v11-e1",
+      "type": "file",
+      "value": "local-llm-stack/README.md 明确指出 main-agent-gateway 负责 v1.1 记忆召回与审批，并通过 main_agent_runtime.py recall/approve/runstate 作为主代理唯一记忆入口。",
+      "ref": "/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/README.md:1",
+      "source": "Planner",
+      "timestamp": "2026-04-05"
+    },
+    {
+      "id": "planner-v11-e2",
+      "type": "file",
+      "value": "local-llm-stack/main_agent_runtime.py 的 CLI 子命令包含 trigger 选项 before_subagent_spawn，作为 memory recall 触发模式之一。",
+      "ref": "/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/main_agent_runtime.py:824",
+      "source": "Planner",
+      "timestamp": "2026-04-05"
+    },
+    {
+      "id": "planner-v11-e3",
+      "type": "file",
+      "value": "local-llm-stack/runtime/main-agent-runtime-state.json 和 main-agent-gateway-state.json 中 last_trigger 字段均为 before_subagent_spawn，并含有备注将其用作 orchestrator_entrypoint。",
+      "ref": "/Users/zyh/Desktop/ceshi123/ollamashiyong/local-llm-stack/runtime/main-agent-runtime-state.json:13",
+      "source": "Planner",
+      "timestamp": "2026-04-05"
+    },
+    {
+      "id": "planner-v11-e4",
+      "type": "file",
+      "value": "memory_recall_and_injection_v1.md 将 before_subagent_spawn 定义为主代理角色化打包触发器，并强调只有主代理可以查询长期记忆和打包 LONG-TERM CONTEXT。",
+      "ref": "/Users/zyh/Desktop/ceshi123/ollamashiyong/memory_recall_and_injection_v1.md:138",
+      "source": "Planner",
+      "timestamp": "2026-04-05"
+    },
+    {
+      "id": "planner-v11-e5",
+      "type": "file",
+      "value": "codex-global-multi-agent/runs/planner_v11.json 中 memory_access_mode 为 main_agent_packaged_context_only，并将 before_subagent_spawn 定义为唯一长期记忆入口。",
+      "ref": "/Users/zyh/Desktop/ceshi123/ollamashiyong/codex-global-multi-agent/runs/planner_v11.json:3",
+      "source": "Planner",
+      "timestamp": "2026-04-05"
+    }
+  ],
+  "state_delta": {
+    "facts": [
+      {
+        "key": "main_agent_runtime_cli_present",
+        "value": true,
+        "scope": "workspace",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "planner-v11-e1",
+          "planner-v11-e2"
+        ]
+      },
+      {
+        "key": "before_subagent_spawn_in_runtime_state",
+        "value": true,
+        "scope": "workspace",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "planner-v11-e3"
+        ]
+      },
+      {
+        "key": "planner_v11_memory_access_mode",
+        "value": "main_agent_packaged_context_only",
+        "scope": "task",
+        "source": "observed_fact",
+        "evidence_ids": [
+          "planner-v11-e5"
+        ]
+      }
+    ],
+    "preferences": [
+      {
+        "key": "memory_entry_mode",
+        "value": "main_agent_packaged_context_only",
+        "scope": "workspace",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "planner-v11-e4",
+          "planner-v11-e5"
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "topic": "orchestrator_entrypoint",
+        "decision": "Use before_subagent_spawn as the only long-term memory entrypoint for subagent launches.",
+        "rationale": "集中由主代理在子代理启动前统一召回并打包上下文，可以控制记忆预算，防止子代理直接访问长期记忆绕过治理。",
+        "scope": "workspace",
+        "proposal_type": "append",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "planner-v11-e3",
+          "planner-v11-e4",
+          "planner-v11-e5"
+        ]
+      },
+      {
+        "topic": "subagent_memory_access",
+        "decision": "Subagents must consume only role-specific packaged context provided by the main agent, not raw memory queries.",
+        "rationale": "统一从主代理分发的 packaged context 可以确保各角色看到的记忆是裁剪过的，降低污染和越权读取风险。",
+        "scope": "workspace",
+        "proposal_type": "append",
+        "source": "approved_decision",
+        "evidence_ids": [
+          "planner-v11-e4",
+          "planner-v11-e5"
+        ]
+      }
+    ],
+    "risks": [
+      {
+        "risk": "如果主代理没有在实际 AGENTS 路由中使用 main_agent_runtime 而仍然通过 main_agent_gateway 直连，v1.1 记忆召回和打包协议将只停留在文档层面。",
+        "impact": "high",
+        "likelihood": "medium",
+        "scope": "workspace",
+        "source": "planner_assessment",
+        "evidence_ids": [
+          "planner-v11-e1"
+        ]
+      },
+      {
+        "risk": "若未来某个子代理被允许直接访问 OpenMemory API，将绕过 before_subagent_spawn 入口，导致记忆治理规则失效。",
+        "impact": "high",
+        "likelihood": "low",
+        "scope": "workspace",
+        "source": "planner_assessment",
+        "evidence_ids": [
+          "planner-v11-e4",
+          "planner-v11-e5"
+        ]
+      }
+    ]
+  },
+  "risks": [
+    "当前仓库中尚未看到 CLAUDE/AGENTS 路由是否已经全部切换到 main_agent_runtime，对“默认入口已落地”的结论仍需主代理实测确认。",
+    "主代理实际调用链如果绕过 before_subagent_spawn，子代理打包上下文协议会被部分或全部跳过。"
+  ],
+  "fallback_suggestion": "request_human_input",
+  "next_steps": [
+    "由主代理在实际对话环境中确认 AGENTS 路由是否已经从 main_agent_gateway 切换到 main_agent_runtime 的 recall/approve/runstate。",
+    "在多代理执行日志中抽样检查：子代理启动前是否存在一致的 before_subagent_spawn 触发记录。",
+    "为子代理角色（Planner/Retriever/Verifier/Synthesizer）补一份运行时检查清单，确保其 memory_access_mode 均为 main_agent_packaged_context_only。"
+  ],
+  "confidence": 0.83
+}

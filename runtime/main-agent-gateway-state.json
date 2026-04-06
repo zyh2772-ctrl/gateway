@@ -1,0 +1,20 @@
+{
+  "zyh:ollamashiyong": {
+    "user_id": "zyh",
+    "workspace_id": "ollamashiyong",
+    "active_roles": [
+      "Retriever"
+    ],
+    "fallback_history": [],
+    "memory_budget": {},
+    "task_summary": "",
+    "last_trigger": "before_subagent_spawn",
+    "last_query": "验证多代理协议的角色上下文分发与审批写回",
+    "last_context_blocks": {
+      "Workspace Facts": [
+        "schema_supports_structured_state_delta: true"
+      ]
+    },
+    "updated_at": 1775348910
+  }
+}

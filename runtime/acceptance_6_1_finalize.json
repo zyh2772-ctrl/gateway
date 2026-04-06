@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "user_id": "zyh",
+  "workspace_id": "middleware-smoke-6-1",
+  "query": "6.1 middleware smoke finalize",
+  "finalized_at": 1775437403,
+  "finalized_task_memories": [],
+  "skipped_task_memories": [],
+  "finalized_count": 0,
+  "retained_count": 0,
+  "run_state": {
+    "user_id": "zyh",
+    "workspace_id": "middleware-smoke-6-1",
+    "lifecycle_stage": "finalize",
+    "active_roles": [],
+    "fallback_history": [],
+    "memory_budget": {},
+    "task_summary": "",
+    "run_revision": 2,
+    "context_snapshot_id": "41a2ac51de844a1db726b377898e63b3",
+    "last_trigger": "finalize",
+    "last_query": "6.1 middleware smoke finalize",
+    "last_context_blocks": {},
+    "updated_at": 1775437403,
+    "last_finalized_at": 1775437403,
+    "finalized_task_continuation_count": 0
+  }
+}

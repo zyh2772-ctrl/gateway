@@ -1,0 +1,36 @@
+{
+  "role": "Planner",
+  "trigger": "before_subagent_spawn",
+  "user_id": "zyh",
+  "workspace_id": "middleware-smoke-6-1",
+  "query": "6.1 middleware smoke recall",
+  "context_snapshot_id": "deaa1982d6d042fc9a6bebca931b554b",
+  "run_revision": 1,
+  "context_blocks": {},
+  "source_context_blocks": [],
+  "stale_or_superseded": [],
+  "context_text": "[LONG-TERM CONTEXT]\n\nNote: The following memory may be outdated. Always prioritize explicit user instructions and current tool outputs.\n\nTask Continuation State:\n- workspace: middleware-smoke-6-1\n- current_task: 6.1 middleware smoke recall",
+  "context_token_estimate": 56,
+  "budget_profile": {
+    "role_multiplier": 1.1,
+    "model_multiplier": 1.0,
+    "max_tokens": 1320
+  },
+  "run_state": {
+    "user_id": "zyh",
+    "workspace_id": "middleware-smoke-6-1",
+    "lifecycle_stage": "active",
+    "active_roles": [
+      "Planner"
+    ],
+    "fallback_history": [],
+    "memory_budget": {},
+    "task_summary": "",
+    "run_revision": 1,
+    "context_snapshot_id": "deaa1982d6d042fc9a6bebca931b554b",
+    "last_trigger": "before_subagent_spawn",
+    "last_query": "6.1 middleware smoke recall",
+    "last_context_blocks": {},
+    "updated_at": 1775437403
+  }
+}

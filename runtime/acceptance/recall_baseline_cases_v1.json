@@ -1,0 +1,82 @@
+[
+  {
+    "name": "retrieved_facts_low_confidence_gate",
+    "args": [
+      "--workspace-id",
+      "ollamashiyong",
+      "--role",
+      "Retriever",
+      "--trigger",
+      "before_task_start",
+      "--query",
+      "未审批证据先留 Retrieved Facts"
+    ],
+    "expectations": {
+      "semantic_backend_status": "ok",
+      "selected_blocks": [
+        "Retrieved Facts"
+      ],
+      "run_state_stage": "start",
+      "selected_identities": [
+        "retrieved:workspace:temporary_evidence_not_prior_decision"
+      ],
+      "selected_retrieval_gates": {
+        "retrieved:workspace:temporary_evidence_not_prior_decision": "semantic_low_confidence"
+      },
+      "low_confidence_identities": [
+        "retrieved:workspace:temporary_evidence_not_prior_decision"
+      ],
+      "selected_text_contains": {
+        "Retrieved Facts": [
+          "[Low Confidence]"
+        ]
+      }
+    }
+  },
+  {
+    "name": "semantic_noise_suppression_entity_alignment",
+    "args": [
+      "--workspace-id",
+      "ollamashiyong",
+      "--role",
+      "Retriever",
+      "--trigger",
+      "before_task_start",
+      "--query",
+      "南极冰芯校准序列 ZX-91"
+    ],
+    "expectations": {
+      "semantic_backend_status": "ok",
+      "selected_blocks": [
+        "Retrieved Facts"
+      ],
+      "run_state_stage": "start",
+      "selected_identities": [
+        "retrieved:workspace:antarctic_icecore_zx91_isolation_test"
+      ],
+      "filtered_reasons": {
+        "retrieved:workspace:entity_noise_and_low_confidence_policy": "entity_alignment_zero",
+        "retrieved:workspace:temporary_evidence_not_prior_decision": "entity_alignment_zero"
+      }
+    }
+  },
+  {
+    "name": "workspace_switch_minimal_baseline",
+    "args": [
+      "--workspace-id",
+      "ollamashiyong",
+      "--role",
+      "Planner",
+      "--trigger",
+      "on_workspace_switch",
+      "--query",
+      "回到 ollamashiyong 工作区后继续当前治理任务"
+    ],
+    "expectations": {
+      "semantic_backend_status": "ok",
+      "selected_blocks": [],
+      "run_state_stage": "start",
+      "trigger": "on_workspace_switch"
+    }
+  }
+]

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.zyh.local-llm-stack.supervisor</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>{{START_SCRIPT}}</string>
+    <string>--profile</string>
+    <string>{{PROFILE}}</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>{{WORKDIR}}</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>{{STDOUT_LOG}}</string>
+
+  <key>StandardErrorPath</key>
+  <string>{{STDERR_LOG}}</string>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+</dict>
+</plist>
